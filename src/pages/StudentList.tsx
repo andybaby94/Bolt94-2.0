@@ -1,0 +1,87 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Plus, Settings as SettingsIcon } from 'lucide-react';
+import { supabase, formatStudentInfo, type Student } from '@/lib/supabase';
+import { PageHeader } from '@/components/PageHeader';
+
+export function StudentList() {
+  const navigate = useNavigate();
+  const [query, setQuery] = useState('');
+  const [students, setStudents] = useState<Student[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from('students')
+        .select('*')
+        .order('grade')
+        .order('class_number')
+        .order('student_number');
+      setStudents((data ?? []) as Student[]);
+      setLoading(false);
+    })();
+  }, []);
+
+  const filtered = query.trim()
+    ? students.filter((s) => s.name.includes(query.trim()))
+    : students;
+
+  return (
+    <div className="mx-auto max-w-2xl px-4 pb-20 pt-4">
+      <PageHeader
+        title="학생 조회"
+        rightSlot={
+          <button
+            onClick={() => navigate('/settings')}
+            className="flex items-center gap-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-600 transition hover:border-gray-300 hover:bg-gray-50"
+          >
+            <SettingsIcon size={14} />
+            설정
+          </button>
+        }
+      />
+
+      <div className="relative mb-4">
+        <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="학생 이름 검색"
+          className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-10 pr-4 text-sm outline-none focus:border-navy-400 focus:ring-1 focus:ring-navy-400"
+        />
+      </div>
+
+      <div className="mb-4">
+        <button
+          onClick={() => navigate('/students/new')}
+          className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white py-3 text-sm font-medium text-gray-700 transition hover:border-gray-300"
+        >
+          <Plus size={18} className="text-gray-400" />
+          학생 등록
+        </button>
+      </div>
+
+      {loading ? (
+        <p className="py-8 text-center text-sm text-gray-400">불러오는 중...</p>
+      ) : filtered.length === 0 ? (
+        <p className="py-8 text-center text-sm text-gray-400">학생이 없습니다.</p>
+      ) : (
+        <div className="space-y-2">
+          {filtered.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => navigate(`/students/${s.id}`)}
+              className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3 text-left transition hover:border-gray-300 hover:shadow-sm"
+            >
+              <span className="text-sm font-medium text-gray-800">{s.name}</span>
+              <span className="text-xs text-gray-500">
+                {formatStudentInfo(s)}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
