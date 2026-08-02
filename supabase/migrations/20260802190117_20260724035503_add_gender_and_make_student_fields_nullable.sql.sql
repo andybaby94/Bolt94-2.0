@@ -1,0 +1,5 @@
+ALTER TABLE students ADD COLUMN IF NOT EXISTS gender text;
+
+ALTER TABLE students ALTER COLUMN grade DROP NOT NULL;
+ALTER TABLE students ALTER COLUMN class_number DROP NOT NULL;
+ALTER TABLE students ALTER COLUMN student_number DROP NOT NULL;
