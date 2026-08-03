@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Plus, AlertCircle } from 'lucide-react';
+import { X, Plus, CircleAlert as AlertCircle } from 'lucide-react';
 import {
   supabase,
   getCurrentAuthUserId,
@@ -146,13 +146,16 @@ export function NewIncident() {
 
       <div className="space-y-4">
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-500">작성 일시</label>
+          <label className="mb-1.5 block text-xs font-medium text-gray-500">사건 발생 일시</label>
           <input
             type="datetime-local"
             value={occurredAt}
             onChange={(e) => setOccurredAt(e.target.value)}
             className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-navy-400 focus:ring-1 focus:ring-navy-400"
           />
+          <p className="mt-1 text-xs text-gray-400">
+            실제 사건이 발생한 일시입니다. 필요하면 수정할 수 있습니다.
+          </p>
         </div>
 
         <div>
