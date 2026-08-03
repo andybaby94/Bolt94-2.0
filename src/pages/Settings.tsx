@@ -1,10 +1,13 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AlertTriangle, X } from 'lucide-react';
 import { PageHeader } from '@/components/PageHeader';
+import { supabase } from '@/lib/supabase';
 
 const TEACHER_NAME_KEY = 'teacherName';
 
 export function Settings() {
+  const navigate = useNavigate();
   const [name, setName] = useState(() => localStorage.getItem(TEACHER_NAME_KEY) ?? '');
   const [saved, setSaved] = useState(false);
 
@@ -12,6 +15,11 @@ export function Settings() {
     localStorage.setItem(TEACHER_NAME_KEY, name.trim());
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate('/login', { replace: true });
   }
 
   const [resetOpen, setResetOpen] = useState(false);
@@ -111,6 +119,12 @@ export function Settings() {
           style={{ backgroundColor: '#1e3a5f' }}
         >
           저장
+        </button>
+        <button
+          onClick={handleLogout}
+          className="mt-3 w-full rounded-xl border border-gray-200 bg-white py-3 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+        >
+          로그아웃
         </button>
         {saved && (
           <p className="mt-2 text-center text-xs text-green-600">저장되었습니다.</p>

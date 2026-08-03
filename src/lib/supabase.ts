@@ -5,6 +5,19 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+export async function getCurrentAuthUserId(): Promise<string | null> {
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.getSession();
+
+  if (error) {
+    return null;
+  }
+
+  return session?.user?.id ?? null;
+}
+
 export type Student = {
   id: string;
   name: string;

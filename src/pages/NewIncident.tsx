@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { X, Plus, AlertCircle } from 'lucide-react';
 import {
   supabase,
+  getCurrentAuthUserId,
   INCIDENT_TYPES,
   LOCATIONS,
   ACTION_TYPES_ROW1,
@@ -46,6 +47,7 @@ export function NewIncident() {
   const [linkedStudents, setLinkedStudents] = useState<LinkedStudent[]>([]);
   const [saving, setSaving] = useState(false);
   const [roleWarning, setRoleWarning] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const canBreak = selectedPeriod !== null && PERIODS_WITH_BREAK.includes(selectedPeriod);
 
@@ -96,6 +98,14 @@ export function NewIncident() {
     }
 
     setSaving(true);
+    setError(null);
+
+    const currentUserId = await getCurrentAuthUserId();
+    if (!currentUserId) {
+      setSaving(false);
+      setError('로그인된 사용자가 없습니다. 먼저 로그인해 주세요.');
+      return;
+    }
 
     const finalLocation = location === '기타' && customLocation.trim() ? customLocation.trim() : location;
     const timePeriod = buildTimePeriod(selectedPeriod, isBreak);
@@ -111,6 +121,7 @@ export function NewIncident() {
         action_type: actionType,
         action_note: actionNote.trim() || null,
         time_period: timePeriod,
+        user_id: currentUserId,
       })
       .select()
       .single();
@@ -254,6 +265,10 @@ export function NewIncident() {
             })}
           </div>
         </div>
+
+        {error && (
+          <p className="text-xs text-red-600">{error}</p>
+        )}
 
         <div>
           <label className="mb-1.5 block text-xs font-medium text-gray-500">사건 내용</label>

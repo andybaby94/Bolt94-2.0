@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Check } from 'lucide-react';
-import { supabase, type Student } from '@/lib/supabase';
+import { supabase, getCurrentAuthUserId, type Student } from '@/lib/supabase';
 import { PageHeader } from '@/components/PageHeader';
 
 export function StudentForm() {
@@ -16,6 +16,7 @@ export function StudentForm() {
   const [gender, setGender] = useState<string>('');
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(isEdit);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -40,6 +41,7 @@ export function StudentForm() {
   async function handleSubmit() {
     if (name.trim().length === 0) return;
     setSaving(true);
+    setError(null);
 
     const payload = {
       name: name.trim(),
@@ -53,7 +55,16 @@ export function StudentForm() {
       await supabase.from('students').update(payload).eq('id', id);
       navigate(-1);
     } else {
-      await supabase.from('students').insert(payload);
+      const currentUserId = await getCurrentAuthUserId();
+      if (!currentUserId) {
+        setSaving(false);
+        setError('로그인된 사용자가 없습니다. 먼저 로그인해 주세요.');
+        return;
+      }
+      await supabase.from('students').insert({
+        ...payload,
+        user_id: currentUserId,
+      });
       navigate('/students', { replace: true });
     }
     setSaving(false);
@@ -140,6 +151,10 @@ export function StudentForm() {
             </button>
           </div>
         </div>
+
+        {error && (
+          <p className="text-xs text-red-600">{error}</p>
+        )}
 
         <button
           onClick={handleSubmit}
