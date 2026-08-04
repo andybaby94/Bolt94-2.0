@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
-const BRAND = '클래스로그';
-const SLOGAN = '학급의 모든 순간을 한눈에 관리하는 클래스로그';
+const BRAND = '비하인드노트';
+const SLOGAN = '생기부에 다 못 적는 진짜 지도·상담 기록을 적는 노트';
 const PASSWORD_POLICY = '비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.';
 
 function isValidPassword(pw: string): boolean {
@@ -66,7 +66,7 @@ export function Signup() {
 
       <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="mb-5">
-          <h2 className="text-lg font-semibold text-navy-800">클래스로그 시작하기</h2>
+          <h2 className="text-lg font-semibold text-navy-800">비하인드노트 시작하기</h2>
           <p className="mt-1 text-xs text-gray-400">새 계정을 만들어 학생 생활지도를 쉽게 기록해 보세요.</p>
         </div>
 
