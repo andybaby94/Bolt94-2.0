@@ -96,7 +96,7 @@ export function Dashboard() {
             className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50"
           >
             <Users size={20} className="text-navy-600" />
-            학생 조회
+            📋학생 조회
           </button>
         </div>
       </section>
