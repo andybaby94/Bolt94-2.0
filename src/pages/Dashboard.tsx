@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, ChevronRight, Printer } from 'lucide-react';
+import { Plus, Printer, FileText, Users } from 'lucide-react';
 import { supabase, type IncidentWithStudents } from '@/lib/supabase';
 import { isTodayKST } from '@/lib/datetime';
 import { IncidentCard } from '@/components/IncidentCard';
-import { StudentSearchInput } from '@/components/StudentSearchInput';
+
+const BRAND = '지도로그';
+const SLOGAN = '학생 생활지도를 기록하고, 돌아보다.';
 
 function isToday(iso: string): boolean {
   return isTodayKST(iso);
@@ -32,15 +34,15 @@ export function Dashboard() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-2xl px-4 pb-20 pt-4">
-      <StudentSearchInput
-        onSelect={(s) => navigate(`/students/${s.id}`)}
-        placeholder="학생 이름 검색"
-      />
+    <div className="mx-auto max-w-2xl px-4 pb-20 pt-6">
+      <div className="mb-5">
+        <h1 className="text-xl font-bold text-navy-800">{BRAND}</h1>
+        <p className="mt-0.5 text-xs text-gray-400">{SLOGAN}</p>
+      </div>
 
       <button
         onClick={() => navigate('/incidents/new')}
-        className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl py-3.5 text-sm font-semibold text-white transition"
+        className="flex w-full items-center justify-center gap-1.5 rounded-xl py-3.5 text-sm font-semibold text-white transition"
         style={{ backgroundColor: '#1e3a5f' }}
       >
         <Plus size={18} />
@@ -81,23 +83,22 @@ export function Dashboard() {
       </section>
 
       <section className="mt-6">
-        <button
-          onClick={() => navigate('/incidents/all')}
-          className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm font-medium text-gray-700 transition hover:border-gray-300"
-        >
-          전체 사건 조회
-          <ChevronRight size={18} className="text-gray-400" />
-        </button>
-      </section>
-
-      <section className="mt-6">
-        <button
-          onClick={() => navigate('/students')}
-          className="flex w-full items-center justify-between rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm font-medium text-gray-700 transition hover:border-gray-300"
-        >
-          학생 조회
-          <ChevronRight size={18} className="text-gray-400" />
-        </button>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={() => navigate('/incidents/all')}
+            className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50"
+          >
+            <FileText size={20} className="text-navy-600" />
+            전체 사건
+          </button>
+          <button
+            onClick={() => navigate('/students')}
+            className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-medium text-gray-700 transition hover:border-gray-300 hover:bg-gray-50"
+          >
+            <Users size={20} className="text-navy-600" />
+            학생 조회
+          </button>
+        </div>
       </section>
     </div>
   );

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
-import { PageHeader } from '@/components/PageHeader';
+
+const BRAND = '지도로그';
+const SLOGAN = '학생 생활지도를 기록하고, 돌아보다.';
 
 export function Login() {
   const navigate = useNavigate();
@@ -42,8 +44,12 @@ export function Login() {
   }, [navigate]);
 
   async function handleSubmit() {
-    if (!email.trim() || !password.trim()) {
-      setError('이메일과 비밀번호를 입력해 주세요.');
+    if (!email.trim()) {
+      setError('이메일을 입력해 주세요.');
+      return;
+    }
+    if (!password.trim()) {
+      setError('비밀번호를 입력해 주세요.');
       return;
     }
 
@@ -58,7 +64,7 @@ export function Login() {
     setLoading(false);
 
     if (signInError) {
-      setError(signInError.message);
+      setError('이메일 또는 비밀번호가 올바르지 않습니다.');
       return;
     }
 
@@ -66,10 +72,13 @@ export function Login() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 pb-20 pt-4">
-      <PageHeader title="로그인" />
+    <div className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-4 py-10">
+      <div className="mb-8 text-center">
+        <h1 className="text-2xl font-bold text-navy-800">{BRAND}</h1>
+        <p className="mt-1.5 text-sm text-gray-400">{SLOGAN}</p>
+      </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-5">
+      <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="space-y-4">
           <div>
             <label className="mb-1.5 block text-xs font-medium text-gray-500">이메일</label>
@@ -87,6 +96,7 @@ export function Login() {
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
               type="password"
               placeholder="비밀번호 입력"
               className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-navy-400 focus:ring-1 focus:ring-navy-400"
@@ -105,14 +115,14 @@ export function Login() {
           >
             {loading ? '로그인 중...' : '로그인'}
           </button>
-
-          <div className="text-center text-sm text-gray-500">
-            계정이 없으신가요?{' '}
-            <Link to="/signup" className="font-medium text-gray-700 underline">
-              회원가입
-            </Link>
-          </div>
         </div>
+      </div>
+
+      <div className="mt-6 text-center text-sm text-gray-500">
+        계정이 없으신가요?{' '}
+        <Link to="/signup" className="font-medium text-navy-700 underline">
+          회원가입
+        </Link>
       </div>
     </div>
   );
