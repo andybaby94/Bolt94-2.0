@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
-const BRAND = '지도로그';
-const SLOGAN = '학생 생활지도를 기록하고, 돌아보다.';
+const BRAND = '클래스로그';
+const SLOGAN = '학생 생활지도 기록을 간편하게';
 const PASSWORD_POLICY = '비밀번호는 8자 이상이며 영문, 숫자, 특수문자를 포함해야 합니다.';
 
 function isValidPassword(pw: string): boolean {
