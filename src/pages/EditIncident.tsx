@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { X, Check, AlertCircle } from 'lucide-react';
+import { X, Check, CircleAlert as AlertCircle } from 'lucide-react';
 import {
   supabase,
   INCIDENT_TYPES,
@@ -19,7 +19,7 @@ import {
   type Student,
   type IncidentWithStudents,
 } from '@/lib/supabase';
-import { kstLocalToISO, isoToKSTLocal } from '@/lib/datetime';
+import { kstLocalToISO, isoToKSTLocal, formatKST } from '@/lib/datetime';
 import { PageHeader } from '@/components/PageHeader';
 import { StudentSearchInput } from '@/components/StudentSearchInput';
 
@@ -42,6 +42,7 @@ export function EditIncident() {
   const [saving, setSaving] = useState(false);
 
   const [occurredAt, setOccurredAt] = useState('');
+  const [createdAt, setCreatedAt] = useState('');
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [isBreak, setIsBreak] = useState(false);
   const [location, setLocation] = useState('교실');
@@ -74,6 +75,7 @@ export function EditIncident() {
       }
 
       setOccurredAt(isoToKSTLocal(inc.occurred_at));
+      setCreatedAt(inc.created_at);
       const { period, isBreak: parsedBreak } = parseTimePeriod(inc.time_period);
       setSelectedPeriod(period);
       setIsBreak(parsedBreak);
@@ -194,11 +196,24 @@ export function EditIncident() {
         <div>
           <label className="mb-1.5 block text-xs font-medium text-gray-500">작성 일시</label>
           <input
+            type="text"
+            value={formatKST(createdAt)}
+            readOnly
+            className="w-full cursor-not-allowed rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-500"
+          />
+        </div>
+
+        <div>
+          <label className="mb-1.5 block text-xs font-medium text-gray-500">사건 발생 일시</label>
+          <input
             type="datetime-local"
             value={occurredAt}
             onChange={(e) => setOccurredAt(e.target.value)}
             className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-navy-400 focus:ring-1 focus:ring-navy-400"
           />
+          <p className="mt-1 text-xs text-gray-400">
+            실제 사건이 발생한 일시입니다. 필요하면 수정할 수 있습니다.
+          </p>
         </div>
 
         <div>

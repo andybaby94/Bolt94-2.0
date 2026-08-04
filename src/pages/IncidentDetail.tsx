@@ -61,15 +61,22 @@ export function IncidentDetail() {
       <PageHeader title="사건 상세" />
 
       <div className="rounded-xl border border-gray-200 bg-white p-4">
+        <div className="mb-3 flex flex-col gap-1 text-xs text-gray-500">
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-gray-600">작성 일시</span>
+            <span>{formatDateTime(incident.created_at)}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-gray-600">사건 발생 일시</span>
+            <span>{formatDateTime(incident.occurred_at)}</span>
+          </div>
+        </div>
+
         <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-          <span className="font-medium">{formatDateTime(incident.occurred_at)}</span>
           {incident.time_period && (
-            <>
-              <span>·</span>
-              <span className="rounded bg-gray-100 px-1.5 py-0.5 font-medium text-gray-600">
-                {incident.time_period}
-              </span>
-            </>
+            <span className="rounded bg-gray-100 px-1.5 py-0.5 font-medium text-gray-600">
+              {incident.time_period}
+            </span>
           )}
           <span>·</span>
           <span>{incident.location}</span>
