@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
-const BRAND = '클래스로그';
-const SLOGAN = '학생 생활지도 기록을 간편하게';
+const BRAND = '비하인드노트';
+const SLOGAN = '생기부에 다 못 적는 진짜 지도·상담 기록을 적는 노트';
 
 export function Login() {
   const navigate = useNavigate();
