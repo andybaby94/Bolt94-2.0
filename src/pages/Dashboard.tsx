@@ -5,8 +5,8 @@ import { supabase, type IncidentWithStudents } from '@/lib/supabase';
 import { isTodayKST } from '@/lib/datetime';
 import { IncidentCard } from '@/components/IncidentCard';
 
-const BRAND = '지도로그';
-const SLOGAN = '학생 생활지도를 기록하고, 돌아보다.';
+const BRAND = '클래스로그';
+const SLOGAN = '학생 생활지도 기록을 간편하게';
 
 function isToday(iso: string): boolean {
   return isTodayKST(iso);
