@@ -1,5 +1,5 @@
 import type { IncidentWithStudents } from '@/lib/supabase';
-import { formatKST as formatDateTime } from '@/lib/datetime';
+import { formatKST as formatDateTime, formatDateKST } from '@/lib/datetime';
 import { IncidentStudentsList, ActionTag } from './Tags';
 import { HighlightText } from './HighlightText';
 
@@ -19,7 +19,7 @@ export function IncidentCard({
       className="w-full rounded-xl border border-gray-200 bg-white p-4 text-left transition hover:border-gray-300 hover:shadow-sm"
     >
       <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-        <span className="font-medium">{formatDateTime(incident.occurred_at)}</span>
+        <span className="font-medium">{formatDateKST(incident.occurred_at)}</span>
         {incident.time_period && (
           <>
             <span>·</span>
