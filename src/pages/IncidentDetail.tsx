@@ -6,6 +6,7 @@ import {
   type IncidentWithStudents,
 } from '@/lib/supabase';
 import { formatDateTime } from '@/components/IncidentCard';
+import { formatDateKST } from '@/lib/datetime';
 import { StudentTag, ActionTag } from '@/components/Tags';
 import { PageHeader } from '@/components/PageHeader';
 
@@ -61,14 +62,14 @@ export function IncidentDetail() {
       <PageHeader title="사건 상세" />
 
       <div className="rounded-xl border border-gray-200 bg-white p-4">
-        <div className="mb-3 flex flex-col gap-1 text-xs text-gray-500">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2 text-xs text-gray-500">
+          <div className="flex items-center gap-2">
+            <span className="font-medium text-gray-600">사건 발생 날짜</span>
+            <span>{formatDateKST(incident.occurred_at)}</span>
+          </div>
           <div className="flex items-center gap-2">
             <span className="font-medium text-gray-600">작성 일시</span>
             <span>{formatDateTime(incident.created_at)}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="font-medium text-gray-600">사건 발생 일시</span>
-            <span>{formatDateTime(incident.occurred_at)}</span>
           </div>
         </div>
 

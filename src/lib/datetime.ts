@@ -51,3 +51,15 @@ export function isoToKSTLocal(iso: string): string {
   const min = String(kst.getUTCMinutes()).padStart(2, '0');
   return `${y}-${m}-${d}T${h}:${min}`;
 }
+
+export function nowKSTDate(): string {
+  return nowKSTLocal().slice(0, 10);
+}
+
+export function kstDateToISO(date: string): string {
+  return new Date(date + 'T00:00+09:00').toISOString();
+}
+
+export function isoToKSTDate(iso: string): string {
+  return isoToKSTLocal(iso).slice(0, 10);
+}

@@ -19,7 +19,7 @@ import {
   type Student,
   type IncidentWithStudents,
 } from '@/lib/supabase';
-import { kstLocalToISO, isoToKSTLocal, formatKST } from '@/lib/datetime';
+import { kstDateToISO, isoToKSTDate, formatKST } from '@/lib/datetime';
 import { PageHeader } from '@/components/PageHeader';
 import { StudentSearchInput } from '@/components/StudentSearchInput';
 
@@ -74,7 +74,7 @@ export function EditIncident() {
         return;
       }
 
-      setOccurredAt(isoToKSTLocal(inc.occurred_at));
+      setOccurredAt(isoToKSTDate(inc.occurred_at));
       setCreatedAt(inc.created_at);
       const { period, isBreak: parsedBreak } = parseTimePeriod(inc.time_period);
       setSelectedPeriod(period);
@@ -155,7 +155,7 @@ export function EditIncident() {
     await supabase
       .from('incidents')
       .update({
-        occurred_at: kstLocalToISO(occurredAt),
+        occurred_at: kstDateToISO(occurredAt),
         location: finalLocation,
         incident_type: incidentType,
         description: description.trim(),
@@ -204,15 +204,15 @@ export function EditIncident() {
         </div>
 
         <div>
-          <label className="mb-1.5 block text-xs font-medium text-gray-500">사건 발생 일시</label>
+          <label className="mb-1.5 block text-xs font-medium text-gray-500">사건 발생 날짜</label>
           <input
-            type="datetime-local"
+            type="date"
             value={occurredAt}
             onChange={(e) => setOccurredAt(e.target.value)}
             className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm outline-none focus:border-navy-400 focus:ring-1 focus:ring-navy-400"
           />
           <p className="mt-1 text-xs text-gray-400">
-            실제 사건이 발생한 일시입니다. 필요하면 수정할 수 있습니다.
+            실제 사건이 발생한 날짜입니다. 필요하면 수정할 수 있습니다.
           </p>
         </div>
 
