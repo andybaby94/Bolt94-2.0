@@ -6,7 +6,7 @@ import { isTodayKST } from '@/lib/datetime';
 import { IncidentCard } from '@/components/IncidentCard';
 
 const BRAND = '클래스로그';
-const SLOGAN = '학생 생활지도 기록을 간편하게';
+const SLOGAN = '학생 생활지도 기록을 쉽고 간편하게';
 
 function isToday(iso: string): boolean {
   return isTodayKST(iso);
