@@ -66,7 +66,7 @@ export function Signup() {
 
       <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
         <div className="mb-5">
-          <h2 className="text-lg font-semibold text-navy-800">지도로그 시작하기</h2>
+          <h2 className="text-lg font-semibold text-navy-800">클래스로그 시작하기</h2>
           <p className="mt-1 text-xs text-gray-400">새 계정을 만들어 학생 생활지도를 기록해 보세요.</p>
         </div>
 
