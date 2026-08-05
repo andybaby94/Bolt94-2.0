@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Printer, FileText, Users } from 'lucide-react';
+import { Plus, Printer, FileText, Users, Settings as SettingsIcon } from 'lucide-react';
 import { supabase, type IncidentWithStudents } from '@/lib/supabase';
 import { isTodayKST } from '@/lib/datetime';
 import { IncidentCard } from '@/components/IncidentCard';
@@ -35,9 +35,18 @@ export function Dashboard() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 pb-20 pt-6">
-      <div className="mb-5">
-        <h1 className="text-xl font-bold text-navy-800">{BRAND}</h1>
-        <p className="mt-0.5 text-xs text-gray-400">{SLOGAN}</p>
+      <div className="mb-5 flex items-start justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-navy-800">{BRAND}</h1>
+          <p className="mt-0.5 text-xs text-gray-400">{SLOGAN}</p>
+        </div>
+        <button
+          onClick={() => navigate('/settings')}
+          className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-navy-700"
+          aria-label="설정"
+        >
+          <SettingsIcon size={22} />
+        </button>
       </div>
 
       <button

@@ -5,6 +5,7 @@ import { IncidentDetail } from '@/pages/IncidentDetail';
 import { StudentList } from '@/pages/StudentList';
 import { StudentDetail } from '@/pages/StudentDetail';
 import { GuardianNotice } from '@/pages/GuardianNotice';
+import { Settings } from '@/pages/Settings';
 
 function Header() {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ function App() {
           <Route path="/incidents/:id/notice" element={<GuardianNotice />} />
           <Route path="/students" element={<StudentList />} />
           <Route path="/students/:id" element={<StudentDetail />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
     </BrowserRouter>
